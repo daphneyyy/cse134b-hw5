@@ -1,0 +1,11 @@
+h2 {
+    font-size: 2rem;
+}
+.star {
+    color: grey;
+    font-size: 2em;
+    cursor: pointer;
+} 
+.js-form {
+    display: none;
+}
