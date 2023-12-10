@@ -19,7 +19,8 @@ class WeatherWidget extends HTMLElement {
                 
                 const forecastWords = shortForecast.split(' ');
                 const weather = ['rainy', 'sunny', 'cloudy', 'foggy', 'snowy', 'windy'];
-                const curWeather = forecastWords.find(w => weather.includes(w.toLowerCase()));
+                let curWeather = forecastWords.find(w => weather.includes(w.toLowerCase()));
+                curWeather = curWeather.toLowerCase();
                 if (curWeather === 'rainy') {
                     weatherIcon.src = "weather-icons/rainy.png";
                     weatherIcon.alt = "rainy";
