@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
     let jsForm = document.querySelector(".js-form");
-    let nojsForm = document.querySelector(".no-js-form");
 
     let star_list = document.querySelector(".stars");
     let stars = document.querySelectorAll(".star");
@@ -60,6 +59,4 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     
     jsForm.style.display = "block";
-    nojsForm.style.display = "none";
-
 });
