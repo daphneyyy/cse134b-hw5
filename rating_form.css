@@ -1,11 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
 h2 {
     font-size: 2rem;
+    margin: 1rem 0;
 }
+
 .star {
     color: grey;
     font-size: 2em;
     cursor: pointer;
+    margin: 0 0.3rem;
 } 
-.js-form {
-    display: none;
-}

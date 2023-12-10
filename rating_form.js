@@ -1,34 +1,68 @@
-document.addEventListener("DOMContentLoaded", function () {
-    let jsForm = document.querySelector(".js-form");
+class RatingWidget extends HTMLElement {
+    constructor() {
+        super();
 
-    let star_list = document.querySelector(".stars");
-    let stars = document.querySelectorAll(".star");
-    let output = document.querySelector(".info-message");
-    let rating_val = document.getElementById("ratingValue");
+        this.jsForm = document.createElement('form');
+        this.jsForm.classList.add('js-form');
+        this.jsForm.action = 'https://httpbin.org/post';
+        this.jsForm.method = 'POST';
+        this.jsForm.style.display = 'block';
 
-    for (let i = 0; i < stars.length; i++) {
-        stars[i].addEventListener("mouseover", () => {
-            setStarColors(i);
+        this.question = document.createElement('input');
+        this.question.type = 'hidden';
+        this.question.name = 'question';
+        this.question.value = 'How satisfied are you?';
+
+        this.rating = document.createElement('input');
+        this.rating.type = 'hidden';
+        this.rating.name = 'rating';
+        this.rating.value = '';
+
+        this.starList = document.createElement('div');
+        this.starList.classList.add('stars');
+        this.stars = [];
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement('span');
+            star.id = i;
+            star.classList.add('star');
+            star.innerHTML = '&#x2605;';
+            this.addStarEvents(star, i);
+            this.starList.appendChild(star);
+            this.stars.push(star);
+        };
+
+        this.output = document.createElement('output');
+        this.output.classList.add('info-message');
+        this.output.setAttribute('type', 'hidden');
+        this.output.htmlFor = 'rating';
+        
+        this.jsForm.appendChild(this.question);
+        this.jsForm.appendChild(this.rating);
+        this.jsForm.appendChild(this.starList);
+        this.jsForm.appendChild(this.output);
+
+        this.appendChild(this.jsForm);
+    }
+
+    addStarEvents(star, id) {
+        star.addEventListener('mouseover', () => {
+            this.setStarColors(id);
         });
-        stars[i].addEventListener("mouseout", () => {
-            resetStarColors();
+        star.addEventListener('mouseout', () => {
+            this.resetStarColors();
         });
-        stars[i].addEventListener("click", (event) => {
+        star.addEventListener('click', (event) => {
             event.preventDefault();
-            let rating = stars[i].id;
-            rating_val.value = rating;
-            if (i >= 3) {
-                output.value = "Thanks for " + rating + " star rating!";
+            this.rating.value = id;
+            if (id >= 3) {
+                this.output.value = `Thanks for ${id} star rating!`;
             } else {
-                output.value =
-                    "Thanks for your feedback of " +
-                    rating +
-                    " stars. We'll try to do better!";
+                this.output.value = `Thanks for your feedback of ${id} stars. We'll try to do better!`;
             }
-            output.style.display = "block";
-            star_list.style.display = "none";
-
-            let newForm = new FormData(jsForm);
+            this.starList.style.display = 'none';
+            this.output.style.display = 'block';
+            
+            let newForm = new FormData(this.jsForm);
             newForm.append("sentBy", "JS");
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "https://httpbin.org/post", true);
@@ -42,21 +76,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    let setStarColors = (star_index) => {
-        for (let i = 0; i < stars.length; i++) {
-            if (i <= star_index) {
-                stars[i].style.color = "gold";
+    setStarColors(starid) {
+        for (let i = 0; i < this.stars.length; i++) {
+            if (i < starid) {
+                this.stars[i].style.color = 'gold';
             } else {
-                stars[i].style.color = "grey";
+                this.stars[i].style.color = 'grey';
             }
         }
-    };
+    }
 
-    let resetStarColors = () => {
-        for (let i = 0; i < stars.length; i++) {
-            stars[i].style.color = "grey";
+    resetStarColors() {
+        for (let i = 0; i < this.stars.length; i++) {
+            this.stars[i].style.color = 'grey';
         }
-    };
-    
-    jsForm.style.display = "block";
-});
+    }
+}
+
+customElements.define("rating-widget", RatingWidget);
