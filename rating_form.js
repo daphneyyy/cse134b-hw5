@@ -2,6 +2,8 @@ class RatingWidget extends HTMLElement {
     constructor() {
         super();
 
+        this.innerHTML = '';
+
         this.jsForm = document.createElement('form');
         this.jsForm.classList.add('js-form');
         this.jsForm.action = 'https://httpbin.org/post';
@@ -54,7 +56,7 @@ class RatingWidget extends HTMLElement {
         star.addEventListener('click', (event) => {
             event.preventDefault();
             this.rating.value = id;
-            if (id >= 3) {
+            if (id >= 4) {
                 this.output.value = `Thanks for ${id} star rating!`;
             } else {
                 this.output.value = `Thanks for your feedback of ${id} stars. We'll try to do better!`;

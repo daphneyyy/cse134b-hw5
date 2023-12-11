@@ -2,6 +2,8 @@ class WeatherWidget extends HTMLElement {
     constructor() {
         super();
 
+        this.innerHTML = '';
+
         const apiUrl = "https://api.weather.gov/gridpoints/SGX/55,21/forecast";
 
         fetch(apiUrl).then((response) => response.json())
